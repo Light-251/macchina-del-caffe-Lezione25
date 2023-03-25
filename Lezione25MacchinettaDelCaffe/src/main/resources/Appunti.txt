@@ -1,0 +1,11 @@
+JSON test /api/ingredienti/sufficienti
+{ 
+	"nome":"cappuccino", 
+  	"costoInCentesimi": "70", 
+  	"qntCaffe":"4",
+  	"qntLatte":"1",
+  	"qntCacao":"1",
+  	"qntZucchero":"3"
+}
+Ritorna true;
+_______________________________________
