@@ -5,6 +5,7 @@ import org.junit.Test;
 import it.softwareinside.Lezione25MacchinettaDelCaffe.models.Bevanda;
 import it.softwareinside.Lezione25MacchinettaDelCaffe.models.Ingredienti;
 import it.softwareinside.Lezione25MacchinettaDelCaffe.models.MacchinaDelCaffe;
+import it.softwareinside.Lezione25MacchinettaDelCaffe.models.MacchinaDelCaffeRicaricaAutomatica;
 import junit.framework.TestCase;
 
 public class TestMacchinaDelCaffe extends TestCase {
@@ -86,14 +87,27 @@ public class TestMacchinaDelCaffe extends TestCase {
 		}
 	}
 
-	public void testQuestionario() {
+//	public void testQuestionario() {
+//		MacchinaDelCaffeRicaricaAutomatica m = new MacchinaDelCaffeRicaricaAutomatica();
+//		m.aggiungiCredito(1000);
+//		m.aggiuntaBevanda(new Bevanda("cappuccino", 120, 9, 3, 1, 2));
+//		m.aggiuntaBevanda(new Bevanda("marocchino", 120, 2, 3, 1, 2));
+//		m.aggiuntaBevanda(new Bevanda("caffellatte", 120, 2, 3, 1, 2));
+//		m.aggiuntaBevanda(new Bevanda("espresso", 120, 2, 3, 1, 2));
+//		m.stampaTutteBevande();
+//		assertTrue(m.eroga("cappuccino"));
+//		System.out.println(m.toString());
+//
+//	}
+	@Test
+	public void testAggiuntivo() {
 		MacchinaDelCaffe m = new MacchinaDelCaffe();
-		m.aggiungiCredito(1000);
-		m.aggiuntaBevanda(new Bevanda("cappuccino", 120, 2, 3, 1, 2));
-		m.aggiuntaBevanda(new Bevanda("marocchino", 120, 2, 3, 1, 2));
-		m.aggiuntaBevanda(new Bevanda("caffellatte", 120, 2, 3, 1, 2));
-		m.aggiuntaBevanda(new Bevanda("espresso", 120, 2, 3, 1, 2));
-		m.questionarioSoddisfazione();
-
+		assertTrue(m.aggiuntaBevanda(new Bevanda("cappuccino", 120, 3, 3, 1, 2)));
+		assertTrue(m.aggiuntaBevanda(new Bevanda("marocchino", 120, 2, 3, 1, 2)));
+		m.aggiungiCredito(240);
+		assertTrue(m.eroga("cappuccino"));
+		assertTrue(m.eroga("marocchino"));
+		assertTrue(m.aggiuntaBevanda(new Bevanda("marocchino", 120, 2, 3, 1, 2)));
+		assertFalse(m.eroga("marocchino"));
 	}
 }

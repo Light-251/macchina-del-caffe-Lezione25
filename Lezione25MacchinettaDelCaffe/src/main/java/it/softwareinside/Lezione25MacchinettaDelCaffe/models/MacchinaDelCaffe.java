@@ -23,7 +23,7 @@ public class MacchinaDelCaffe {
 	private int id;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private ArrayList<Bevanda> bevande;
+	protected ArrayList<Bevanda> bevande;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	protected Ingredienti ingredienti;
@@ -83,6 +83,21 @@ public class MacchinaDelCaffe {
 
 		return false;
 	}
+	/**
+	 * Controlla se una bevanda è presente nella macchinetta prendendo in ingresso
+	 * il nome della bevanda da controllare come Stringa
+	 * 
+	 * @param bevandaDaControllare
+	 * @return
+	 */
+	public Bevanda isBevandaPresent(String bevandaDaControllare) {
+		for (Bevanda bevanda : bevande) {
+			if(bevanda.getNome().equals(bevandaDaControllare))
+				return bevanda;
+		}
+
+		return null;
+	}
 
 	/**
 	 * Ricostituisce la quantità iniziale di ingredienti
@@ -108,12 +123,24 @@ public class MacchinaDelCaffe {
 				if (bevanda.getCostoInCentesimi() <= getCreditoUtente()
 						&& ingredienti.ingredientiSufficienti(bevanda)) {
 					bevande.remove(bevanda);
+					rimuoviIngredienti(bevanda);
+					setCreditoUtente(getCreditoUtente() - bevanda.getCostoInCentesimi());
+//					questionarioSoddisfazione();
 					return true;
 				}
 
 			}
 		}
 		return false;
+	}
+	
+	public void rimuoviIngredienti(Bevanda bevanda) {
+		if(ingredienti.ingredientiSufficienti(bevanda)) {
+			ingredienti.setCaffe(ingredienti.getCaffe() - bevanda.getQntCaffe());
+			ingredienti.setLatte(ingredienti.getLatte() - bevanda.getQntLatte());
+			ingredienti.setCacao(ingredienti.getCacao() - bevanda.getQntCacao());
+			ingredienti.setZucchero(ingredienti.getZucchero() - bevanda.getQntZucchero());
+		}
 	}
 
 	/**
@@ -197,6 +224,12 @@ public class MacchinaDelCaffe {
 		System.out.println("Fine Valutazione: voto maggiore: " + maxVoto + ", voto minore: " + minVoto);
 		System.out.println("Media voti: " + media);
 		return voti;
+	}
+	
+	public void stampaTutteBevande() {
+		for (Bevanda bevanda : bevande) {
+			System.out.println(bevanda.toString() + " ");
+		}
 	}
 
 }
